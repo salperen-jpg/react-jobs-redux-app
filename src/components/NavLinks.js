@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom';
 import links from '../utils/links';
 import React from 'react';
 const NavLinks = ({ toggle }) => {
-  console.log(toggle);
   return (
     <div className='nav-links'>
       {links.map((link) => {

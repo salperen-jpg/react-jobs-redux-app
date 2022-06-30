@@ -3,6 +3,7 @@ import { FormRow } from '../../components';
 import Wrapper from '../../assets/wrappers/DashboardFormPage';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { updateUser } from '../../features/user/userSlice';
 
 const Profile = () => {
   const { isLoading, user } = useSelector((store) => store.user);
@@ -21,7 +22,9 @@ const Profile = () => {
     const { name, email, location, lastName } = userData;
     if (!name || !email || !location || !lastName) {
       toast.error('Please provide all instances');
+      return;
     }
+    dispatch(updateUser(userData));
   };
   return (
     <Wrapper>
@@ -42,7 +45,7 @@ const Profile = () => {
             handleChange={handleChange}
           />
           <FormRow
-            type='text'
+            type='email'
             name='email'
             value={userData.email}
             handleChange={handleChange}
