@@ -6,6 +6,7 @@ import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
 } from '../../utils/localStorage';
+import { loginUserThunk, regiterUserThunk, updateUserThunk } from './userThunk';
 
 const initialState = {
   isLoading: false,
@@ -15,43 +16,11 @@ const initialState = {
 
 export const registerUser = createAsyncThunk(
   'user/registerUser',
-  async (user, thunkAPI) => {
-    try {
-      const response = await customFetch.post('/auth/register', user);
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.msg);
-    }
-  }
+  regiterUserThunk
 );
-export const loginUser = createAsyncThunk(
-  'user/loginUser',
-  async (user, thunkAPI) => {
-    try {
-      const response = await customFetch.post('/auth/login', user);
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.msg);
-    }
-  }
-);
+export const loginUser = createAsyncThunk('user/loginUser', loginUserThunk);
 
-export const updateUser = createAsyncThunk(
-  'user/updateUer',
-  async (user, thunkAPI) => {
-    try {
-      const response = await customFetch.patch('/auth/updateUser', user, {
-        headers: {
-          authorization: `Bearer ${thunkAPI.getState().user.user.token}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      console.log(error.response);
-      return thunkAPI.dispatch.rejectWithValue(error.response.data.msg);
-    }
-  }
-);
+export const updateUser = createAsyncThunk('user/updateUer', updateUserThunk);
 
 const userSlice = createSlice({
   name: 'user',
